@@ -15,16 +15,15 @@ public class AsciiTabParser {
         var lines = text.split("\n");
 
 
-
         // basic algo:
         // buffer lines with match to [a-zA-Z]?\|-
 
         buffer = new TabsBuffer();
-        for(var line: lines ) {
+        for (var line : lines) {
 
-            if(line.matches("[A-Za-z]\\|-.*")) {
-               buffer.add(line);
-            } else  {
+            if (line.matches("[A-Za-z]\\|-.*")) {
+                buffer.add(line);
+            } else {
                 // throw away buffer after
                 // if was usable add to
                 buffer.end();
@@ -47,7 +46,7 @@ public class AsciiTabParser {
         }
 
         public void end() {
-            if(linesBuffer.size()>=4) {
+            if (linesBuffer.size() >= 4) {
                 all.add(linesBuffer);
             }
             linesBuffer.clear();
@@ -56,5 +55,10 @@ public class AsciiTabParser {
         public int size() {
             return all.size();
         }
+
+    }
+
+    public Tabs parseTabs() {
+        return new Tabs();
     }
 }

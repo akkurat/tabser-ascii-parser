@@ -60,8 +60,13 @@ class AsciiTabParserTest {
     public void checkTabsAq() throws IOException {
         var parser = new AsciiTabParser();
         parser.load(new ByteArrayInputStream(test1.getBytes(StandardCharsets.UTF_8)));
+        var pickings = parser.parseTabs();
 
-        assertEquals(3, parser.buffer.size());
+        assertAll(
+
+                ()->assertEquals(3, parser.buffer.size())
+        ()-> assertAll("x", pickings.get(0).get("e"));
+        );
 
     }
 }
