@@ -22,7 +22,7 @@ public class AsciiTabParser {
         buffer = new TabsBuffer();
         for(var line: lines ) {
 
-            if(line.matches("[A-Za-bz]]\\|-")) {
+            if(line.matches("[A-Za-z]\\|-.*")) {
                buffer.add(line);
             } else  {
                 // throw away buffer after
@@ -54,7 +54,7 @@ public class AsciiTabParser {
         }
 
         public int size() {
-            return linesBuffer.size();
+            return all.size();
         }
     }
 }
