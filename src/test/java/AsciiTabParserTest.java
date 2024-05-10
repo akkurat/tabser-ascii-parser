@@ -1,8 +1,12 @@
+import com.google.common.collect.ImmutableMap;
 import org.junit.jupiter.api.Test;
+
+import static com.google.common.truth.Truth.assertThat;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,7 +25,7 @@ class AsciiTabParserTest {
             "Part A\n" +
             "\n" +
             "      F#m           Am          F#m           Am\n" +
-            "e|----x-9----x-9----x-7---x-7---x-9----x-9----x-7---x-7---------------------|\n" +
+            "e|-----------x-9----x-7---x-7---x-9----x-9----x-7---x-7---------------------|\n" +
             "B|----x-10---x-10---x-7---x-7---x-10---x-10---x-7---x-7---------------------|\n" +
             "G|----x-11---x-11---x-7---x-7---x-11---x-11---x-7---x-7---------------------|\n" +
             "D|----x-11---x-11---x-9---x-9---x-11---x-11---x-9---x-9---------------------|\n" +
@@ -62,10 +66,23 @@ class AsciiTabParserTest {
         parser.load(new ByteArrayInputStream(test1.getBytes(StandardCharsets.UTF_8)));
         var pickings = parser.parseTabs();
 
-        assertAll(
+        Map<String, String> first = ImmutableMap.of(
+                "1", "10",
+                "2", "11",
+                "3", "11",
+                "4", "9");
 
-                ()->assertEquals(3, parser.buffer.size())
-        ()-> assertAll("x", pickings.get(0).get("e"));
+        Map<String, String> secondLine = ImmutableMap.of(
+                "0", "3",
+                "1", "3",
+                "2", "4",
+                "3", "5",
+                "4", "5",
+                "5", "3");
+        assertAll(
+                () -> assertEquals(3, parser.buffer.size()),
+                () -> assertThat(pickings.getTime(8)).containsExactlyEntriesIn(first),
+                () -> assertThat(pickings.getTime(85)).containsExactlyEntriesIn(secondLine)
         );
 
     }
